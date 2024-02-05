@@ -312,16 +312,26 @@ class _HomeScreenState extends HomeBloc {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(
-                  Icons.history,
-                  color: AppData.colors.actionsTabs,
-                  size: 30,
+                GestureDetector(
+                  onTap: () => onTapTab(4),
+                  child: Icon(
+                    Icons.history,
+                    color: selectedTabIndex == 4
+                        ? Colors.white
+                        : AppData.colors.actionsTabs,
+                    size: 30,
+                  ),
                 ),
                 const SizedBox(width: 16),
-                Icon(
-                  Icons.settings_outlined,
-                  color: AppData.colors.actionsTabs,
-                  size: 30,
+                GestureDetector(
+                  onTap: () => onTapTab(5),
+                  child: Icon(
+                    Icons.settings_outlined,
+                    color: selectedTabIndex == 5
+                        ? Colors.white
+                        : AppData.colors.actionsTabs,
+                    size: 30,
+                  ),
                 ),
               ],
             ),
@@ -400,10 +410,137 @@ class _HomeScreenState extends HomeBloc {
 
   Widget get body {
     switch (selectedTabIndex) {
+      case 4:
+        return Container(
+          color: AppData.colors.appBg,
+          padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 60),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "History",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Container(
+                    height: 30,
+                    padding: const EdgeInsets.only(left: 50, right: 9),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        color: AppData.colors.borderColor,
+                        width: 1.0,
+                      ),
+                      color: AppData.colors.homeBgColor,
+                    ),
+                    child: DropdownButton<String>(
+                      style: const TextStyle(),
+                      padding: EdgeInsets.zero,
+                      underline: Container(),
+                      value: selectedHistoryType,
+                      items: historyType.map((String item) {
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(item),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedHistoryType = newValue!;
+                        });
+                        print('Selected: $selectedHistoryType');
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Container(
+                    height: 30,
+                    padding: const EdgeInsets.only(left: 50, right: 9),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        color: AppData.colors.borderColor,
+                        width: 1.0,
+                      ),
+                      color: AppData.colors.homeBgColor,
+                    ),
+                    child: DropdownButton<String>(
+                      style: const TextStyle(),
+                      padding: EdgeInsets.zero,
+                      underline: Container(),
+                      value: selectedHistoryAssets,
+                      items: historyAssets.map((String item) {
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(item),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedHistoryAssets = newValue!;
+                        });
+                        print('Selected: $selectedHistoryAssets');
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 24, horizontal: 50),
+                decoration: BoxDecoration(
+                  color: AppData.colors.homeCardBg,
+                ),
+                child: const Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("TYPE"),
+                          Text("PAIR"),
+                          Text("NOTE"),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 250),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("STATUS"),
+                          Text("AMOUNT"),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(top: 80, bottom: 500),
+                child: Center(
+                  child: Text(
+                    "No Transactions",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: AppData.colors.textColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       case 3:
         return Container(
           padding: const EdgeInsets.only(
-            top: 100,
+            top: 50,
             bottom: 400,
           ),
           width: double.infinity,
@@ -418,6 +555,343 @@ class _HomeScreenState extends HomeBloc {
                 Color(0xFF6073E9),
               ],
               stops: [0.22, 0.24, 0.46, 1.0],
+            ),
+          ),
+          child: selectedBuyScreen == 0
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 450,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 24, horizontal: 30),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(8.0),
+                          topRight: Radius.circular(8.0),
+                        ),
+                        color: Colors.black.withOpacity(0.15),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("You pay"),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Stack(
+                                children: [
+                                  Positioned(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 5, left: 10),
+                                      height: 30,
+                                      padding: const EdgeInsets.only(
+                                          left: 50, right: 9),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          color: AppData.colors.borderColor,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: DropdownButton<CustomCurrency>(
+                                        style: const TextStyle(),
+                                        padding: EdgeInsets.zero,
+                                        underline: Container(),
+                                        value: selectedCurrency,
+                                        items: currencies
+                                            .map((CustomCurrency item) {
+                                          return DropdownMenuItem<
+                                              CustomCurrency>(
+                                            value: item,
+                                            child: Text(item.name),
+                                          );
+                                        }).toList(),
+                                        onChanged: (CustomCurrency? newValue) {
+                                          setState(() {
+                                            selectedCurrency = newValue;
+                                          });
+                                          print('Selected: $selectedCurrency');
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  const CircleAvatar(
+                                    maxRadius: 20,
+                                    minRadius: 20,
+                                  )
+                                ],
+                              ),
+                              Text(
+                                money.toString(),
+                                style: const TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 450,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 24, horizontal: 30),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(8.0),
+                          bottomRight: Radius.circular(8.0),
+                        ),
+                        color: Colors.black.withOpacity(0.3),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("You receive"),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Stack(
+                                children: [
+                                  Positioned(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 5, left: 10),
+                                      height: 30,
+                                      padding: const EdgeInsets.only(
+                                          left: 50, right: 9),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          color: AppData.colors.borderColor,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: DropdownButton<Crypt>(
+                                        style: const TextStyle(),
+                                        padding: EdgeInsets.zero,
+                                        underline: Container(),
+                                        value: selectedCrypt,
+                                        items: crypts.map((Crypt item) {
+                                          return DropdownMenuItem<Crypt>(
+                                            value: item,
+                                            child: Text(item.name),
+                                          );
+                                        }).toList(),
+                                        onChanged: (Crypt? newValue) {
+                                          setState(() {
+                                            selectedCrypt = newValue;
+                                          });
+                                          print('Selected: $newValue');
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    child: AppData.assets.image.crypto(
+                                      value: selectedCrypt?.iconName,
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                money.toString(),
+                                style: const TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      alignment: Alignment.center,
+                      width: 380,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(8.0),
+                          bottomRight: Radius.circular(8.0),
+                        ),
+                        color: Colors.black.withOpacity(0.15),
+                      ),
+                      child:
+                          const Text("1 BTC ≈ \$42,975.33 USD (Includes fee)"),
+                    ),
+                    const SizedBox(height: 12),
+                    const SizedBox(
+                      width: 450,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Debit Card",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(" with "),
+                          Text(
+                            "Ramp",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.all(6),
+                      width: 450,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => setState(() {
+                                money = 100;
+                              }),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                decoration: BoxDecoration(
+                                  gradient: money == 100
+                                      ? const LinearGradient(
+                                          colors: [
+                                            Color(0xFF9f69b5),
+                                            Color(0xFF460fe4),
+                                          ],
+                                        )
+                                      : null,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Text(
+                                  "\$100",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => setState(() {
+                                money = 500;
+                              }),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                decoration: BoxDecoration(
+                                  gradient: money == 500
+                                      ? const LinearGradient(
+                                          colors: [
+                                            Color(0xFF9f69b5),
+                                            Color(0xFF460fe4),
+                                          ],
+                                        )
+                                      : null,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Text(
+                                  "\$500",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => setState(() {
+                                money = 10000;
+                              }),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                decoration: BoxDecoration(
+                                  gradient: money == 10000
+                                      ? const LinearGradient(
+                                          colors: [
+                                            Color(0xFF9f69b5),
+                                            Color(0xFF460fe4),
+                                          ],
+                                        )
+                                      : null,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Text(
+                                  "MAX",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    Container(
+                      width: 450,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFF9f69b5),
+                            Color(0xFF460fe4),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(60),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          disabledBackgroundColor: Colors.transparent,
+                        ),
+                        child: const Text(
+                          "CONTINUE",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              : const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 100),
+                  child: Center(
+                    child: Text(
+                      "No transactions",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 48,
+                      ),
+                    ),
+                  ),
+                ),
+        );
+      case 2:
+        return Container(
+          padding: const EdgeInsets.only(
+            top: 50,
+            bottom: 400,
+          ),
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF1F2428),
+                Color(0xFF1B1D1E),
+              ],
             ),
           ),
           child: Column(
@@ -437,76 +911,8 @@ class _HomeScreenState extends HomeBloc {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("You pay"),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Stack(
-                          children: [
-                            Positioned(
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 5, left: 10),
-                                height: 30,
-                                padding:
-                                    const EdgeInsets.only(left: 50, right: 9),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  border: Border.all(
-                                    color: AppData.colors.borderColor,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: DropdownButton<CustomCurrency>(
-                                  style: const TextStyle(),
-                                  padding: EdgeInsets.zero,
-                                  underline: Container(),
-                                  value: selectedCurrency,
-                                  items: currencies.map((CustomCurrency item) {
-                                    return DropdownMenuItem<CustomCurrency>(
-                                      value: item,
-                                      child: Text(item.name),
-                                    );
-                                  }).toList(),
-                                  onChanged: (CustomCurrency? newValue) {
-                                    setState(() {
-                                      selectedCurrency = newValue;
-                                    });
-                                    print('Selected: $selectedCurrency');
-                                  },
-                                ),
-                              ),
-                            ),
-                            const CircleAvatar(
-                              maxRadius: 20,
-                              minRadius: 20,
-                            )
-                          ],
-                        ),
-                        Text(
-                          money.toString(),
-                          style: const TextStyle(color: Colors.white),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 450,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 30),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(8.0),
-                    bottomRight: Radius.circular(8.0),
-                  ),
-                  color: Colors.black.withOpacity(0.3),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("You receive"),
+                    Text(
+                        "I have ${selectedCrypt?.amount} ${selectedCrypt?.name}"),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -540,6 +946,15 @@ class _HomeScreenState extends HomeBloc {
                                   onChanged: (Crypt? newValue) {
                                     setState(() {
                                       selectedCrypt = newValue;
+                                      swapCrypts =
+                                          authService.getCryptsByCryptsName(
+                                        selectedCrypt!.swapCrypts,
+                                      );
+                                      selectedCryptBuy = swapCrypts[0];
+                                      swapMoney =
+                                          selectedCrypt!.amountInCurrency;
+                                      swapAmount = swapMoney /
+                                          selectedCryptBuy!.priceForOne;
                                     });
                                     print('Selected: $newValue');
                                   },
@@ -555,42 +970,101 @@ class _HomeScreenState extends HomeBloc {
                             ),
                           ],
                         ),
-                        Text(
-                          money.toString(),
-                          style: const TextStyle(color: Colors.white),
-                        )
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              swapAmount.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              "\$ $swapMoney",
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                alignment: Alignment.center,
-                width: 380,
+                width: 450,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 24, horizontal: 30),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(8.0),
                     bottomRight: Radius.circular(8.0),
                   ),
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withOpacity(0.3),
                 ),
-                child: const Text("1 BTC ≈ \$42,975.33 USD (Includes fee)"),
-              ),
-              const SizedBox(height: 12),
-              const SizedBox(
-                width: 450,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Debit Card",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Text(" with "),
-                    Text(
-                      "Ramp",
-                      style: TextStyle(color: Colors.white),
+                    Text("I want  ${selectedCryptBuy?.name}"),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Stack(
+                          children: [
+                            Positioned(
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 5, left: 10),
+                                height: 30,
+                                padding:
+                                    const EdgeInsets.only(left: 50, right: 9),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                    color: AppData.colors.borderColor,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                child: DropdownButton<Crypt>(
+                                  style: const TextStyle(),
+                                  padding: EdgeInsets.zero,
+                                  underline: Container(),
+                                  value: selectedCryptBuy,
+                                  items: swapCrypts.map((Crypt item) {
+                                    return DropdownMenuItem<Crypt>(
+                                      value: item,
+                                      child: Text(item.name),
+                                    );
+                                  }).toList(),
+                                  onChanged: (Crypt? newValue) {
+                                    setState(() {
+                                      selectedCryptBuy = newValue;
+                                      swapAmount = swapMoney /
+                                          selectedCryptBuy!.priceForOne;
+                                    });
+                                    print('Selected: $newValue');
+                                  },
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              child: AppData.assets.image.crypto(
+                                value: selectedCryptBuy?.iconName,
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              buyMoney.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              "\$ $swapMoney",
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -608,23 +1082,15 @@ class _HomeScreenState extends HomeBloc {
                     Expanded(
                       child: GestureDetector(
                         onTap: () => setState(() {
-                          money = 100;
+                          buyAmount = 0.0;
                         }),
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
-                            gradient: money == 100
-                                ? const LinearGradient(
-                                    colors: [
-                                      Color(0xFF9f69b5),
-                                      Color(0xFF460fe4),
-                                    ],
-                                  )
-                                : null,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: const Text(
-                            "\$100",
+                            "MIN",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -634,23 +1100,15 @@ class _HomeScreenState extends HomeBloc {
                     Expanded(
                       child: GestureDetector(
                         onTap: () => setState(() {
-                          money = 500;
+                          buyAmount = selectedCrypt!.amount / 2;
                         }),
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
-                            gradient: money == 500
-                                ? const LinearGradient(
-                                    colors: [
-                                      Color(0xFF9f69b5),
-                                      Color(0xFF460fe4),
-                                    ],
-                                  )
-                                : null,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: const Text(
-                            "\$500",
+                            "HALF",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -660,7 +1118,7 @@ class _HomeScreenState extends HomeBloc {
                     Expanded(
                       child: GestureDetector(
                         onTap: () => setState(() {
-                          money = 10000;
+                          buyAmount = selectedCryptBuy!.amount;
                         }),
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -707,7 +1165,7 @@ class _HomeScreenState extends HomeBloc {
                     disabledBackgroundColor: Colors.transparent,
                   ),
                   child: const Text(
-                    "CONTINUE",
+                    "ENTER AMOUNT",
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -717,9 +1175,239 @@ class _HomeScreenState extends HomeBloc {
             ],
           ),
         );
-      case 0:
       case 1:
-      case 2:
+        return Column(
+          children: [
+            Scrollbar(
+              controller: scrollController,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(24.0),
+                    topRight: Radius.circular(24.0),
+                  ),
+                  color: AppData.colors.homeCardHoverBg,
+                ),
+                width: double.infinity,
+                height: 70,
+                child: ListView.separated(
+                  controller: scrollController,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () => setState(() {
+                        selectedWallet = crypts[index];
+                      }),
+                      child: Container(
+                        width: 140,
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Column(
+                          children: [
+                            Text(crypts[index].name),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(crypts[index].amount.toString()),
+                                const SizedBox(width: 5),
+                                Text(crypts[index].shortName),
+                              ],
+                            ),
+                            const Expanded(
+                              child: SizedBox(),
+                            ),
+                            selectedWallet == crypts[index]
+                                ? Container(
+                                    width: 140,
+                                    height: 1,
+                                    color: Colors.blue,
+                                  )
+                                : Container()
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Container(
+                      width: 2,
+                      height: 40,
+                      color: AppData.colors.homeSeparate,
+                    );
+                  },
+                  itemCount: crypts.length,
+                ),
+              ),
+            ),
+            Container(
+              color: AppData.colors.appBg,
+              width: double.infinity,
+              padding: const EdgeInsets.only(top: 50, left: 40, right: 40),
+              child: Column(
+                children: [
+                  AppData.assets.image.crypto(
+                    value: selectedWallet?.iconName,
+                    height: 67,
+                    width: 67,
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 120,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          selectedWallet!.amount.toString(),
+                          style: const TextStyle(
+                            fontSize: 98,
+                          ),
+                          textAlign: TextAlign.end,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          selectedWallet!.shortName,
+                          style: const TextStyle(
+                            fontSize: 42,
+                          ),
+                          textAlign: TextAlign.end,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        selectedCurrency!.symbol,
+                        style: const TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                      Text(
+                        selectedCrypt!.amountInCurrency.toString(),
+                        style: const TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 80, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            border: Border.all(
+                              width: 1,
+                              color: AppData.colors.borderColor,
+                            ),
+                          ),
+                          child: const Text("Send"),
+                        ),
+                      ),
+                      const SizedBox(width: 24),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 80, vertical: 12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            border: Border.all(
+                              width: 1,
+                              color: AppData.colors.borderColor,
+                            ),
+                          ),
+                          child: const Text("Receive"),
+                        ),
+                      ),
+                      const SizedBox(width: 24),
+                      GestureDetector(
+                        onTap: () {},
+                        child: const CircleAvatar(
+                          radius: 20,
+                          child: Icon(Icons.swap_horiz),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 60),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 14),
+                          child: Text(
+                            "PRICE CHAT",
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Container(
+                          width: double.infinity,
+                          height: 1,
+                          color: AppData.colors.homeCardBg,
+                        ),
+                        const SizedBox(height: 24),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 14),
+                          child: Row(
+                            children: [
+                              Text(
+                                "ACTIVITY",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              SizedBox(width: 40),
+                              Text(
+                                "ABOUT",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 18),
+                        Container(
+                          width: double.infinity,
+                          height: 1,
+                          color: AppData.colors.homeCardBg,
+                        ),
+                        const SizedBox(height: 90),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            "No ${selectedWallet!.name} Trancasactions",
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(height: 400),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      case 0:
       default:
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 40),
