@@ -101,4 +101,13 @@ class ColorsCollection {
       ];
   Color get homeSeparate => const Color(0xFF303234);
   Color get actionsTabs => const Color(0xFF686A6B);
+
+  Color get appBg => const Color(0xFF1F2428);
+  Color get appText => const Color(0xFF747779);
+  Color get cardButtonText => const Color(0xFF907AFF);
+
+  Color get homeCardBg => const Color(0xFF22272B);
+  Color get homeCardHoverBg => const Color(0xFF181A1D);
+
+  Color get borderColor => const Color(0xFF292A43);
 }

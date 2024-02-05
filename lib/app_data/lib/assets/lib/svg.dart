@@ -36,6 +36,8 @@ class Svg {
 
   SvgPicture get buyTab => SvgPicture.asset(_name('icons/buy_tab'));
 
+  SvgPicture get import => SvgPicture.asset(_name('icons/import'));
+
   SvgPicture crypto({
     String? value,
     Color? color,
