@@ -14,6 +14,7 @@ import 'package:exodus/features/auth/domain/models/transaction/transaction.dart'
 import 'package:exodus/features/auth/repository/auth_repository.dart';
 import 'package:exodus/features/auth/repository/domain/register/register_body.dart';
 import 'package:exodus/features/currency/domain/custom_currency.dart';
+import 'package:exodus/features/diagrammes/domain/model/diagram_model.dart';
 import 'package:exodus/features/settings/domain/settings_service.dart';
 import 'package:hex/hex.dart';
 import 'package:http/http.dart';
@@ -158,6 +159,9 @@ class Utils {
             walletUrl: walletUrl,
             swapId: swapId,
             swapTokenAddress: swapTokenAddress,
+            diagramModel: DiagramModel(max: 0, min: 0, last: 0, points: [
+              [0]
+            ]),
           );
         } else {
           crypt = Crypt(
@@ -173,14 +177,23 @@ class Utils {
             walletUrl: walletUrl,
             swapId: swapId,
             swapTokenAddress: swapTokenAddress,
+            diagramModel: DiagramModel(max: 0, min: 0, last: 0, points: [
+              [0, 0]
+            ]),
           );
         }
         final response = await authRepository.periods(
           tokenAddress,
-          "hour",
+          "month",
         );
         if (response.isSuccess) {
           crypt.priceForOne = response.data!.attributes.stats.last;
+          crypt.diagramModel = DiagramModel(
+            max: response.data!.attributes.stats.max,
+            min: response.data!.attributes.stats.min,
+            last: response.data!.attributes.stats.last,
+            points: response.data!.attributes.points,
+          );
         } else {
           dev.log("Error take stats last");
         }

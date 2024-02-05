@@ -1,3 +1,4 @@
+import 'package:exodus/features/diagrammes/domain/model/diagram_model.dart';
 import 'package:hive/hive.dart';
 import 'package:exodus/features/auth/domain/adapters/changes.dart';
 
@@ -31,6 +32,10 @@ class Crypt {
   final int swapId;
   @HiveField(12)
   String swapTokenAddress;
+  @HiveField(13)
+  bool isFavorite;
+  @HiveField(14)
+  DiagramModel? diagramModel;
 
   Crypt({
     this.amount = 0,
@@ -46,5 +51,7 @@ class Crypt {
     required this.walletUrl,
     required this.swapId,
     required this.swapTokenAddress,
+    this.isFavorite = false,
+    required this.diagramModel,
   });
 }

@@ -1,3 +1,4 @@
+import 'package:exodus/features/auth/domain/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:exodus/app_data/app_data.dart';
@@ -11,7 +12,6 @@ abstract class InitBloc extends State<InitPage> {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       syncData();
     });
@@ -30,6 +30,10 @@ abstract class InitBloc extends State<InitPage> {
         // if (result == true && mounted) {
         //   context.go(AppData.routes.homeScreen);
         // }
+        setState(() {
+          AppData.utils.importData(
+              public: _settingsService.getMnemonicSentence()!, isNew: false);
+        });
         if (mounted) {
           context.go(AppData.routes.homeScreen);
         }

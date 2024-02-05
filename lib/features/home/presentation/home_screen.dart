@@ -3,7 +3,10 @@ import 'package:exodus/features/crypt/domain/crypt.dart';
 import 'package:exodus/features/currency/domain/custom_currency.dart';
 import 'package:exodus/features/home/widget/card.dart';
 import 'package:exodus/features/home/widget/home_tab_button.dart';
+import 'package:exodus/features/home/widget/line_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'home_bloc.dart';
 
@@ -70,6 +73,21 @@ class _HomeScreenState extends HomeBloc {
             ],
           ),
         );
+      case 5:
+        return SizedBox(
+          height: 20,
+          child: Row(
+            children: [
+              const SizedBox(width: 15),
+              Container(
+                height: 20,
+                width: 1,
+                color: AppData.colors.homeSeparate,
+              ),
+              const SizedBox(width: 15),
+            ],
+          ),
+        );
       default:
         return Row(
           children: AppData.assets.svg.exodus,
@@ -79,6 +97,90 @@ class _HomeScreenState extends HomeBloc {
 
   Widget get centerButtons {
     switch (selectedTabIndex) {
+      case 5:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () => onSettingsTapTab(0),
+                child: Column(
+                  children: [
+                    Text(
+                      "Wallet",
+                      style: TextStyle(
+                        color:
+                            selectedSettingsScreen == 0 ? Colors.white : null,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    Container(
+                      height: 1,
+                      width: 40,
+                      color: selectedSettingsScreen == 0
+                          ? Colors.blue
+                          : Colors.transparent,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 40),
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () => onSettingsTapTab(1),
+                child: Column(
+                  children: [
+                    Text(
+                      "Backup",
+                      style: TextStyle(
+                        color:
+                            selectedSettingsScreen == 1 ? Colors.white : null,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    Container(
+                      height: 1,
+                      width: 40,
+                      color: selectedSettingsScreen == 1
+                          ? Colors.blue
+                          : Colors.transparent,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 40),
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () => onSettingsTapTab(2),
+                child: Column(
+                  children: [
+                    Text(
+                      "Personalize",
+                      style: TextStyle(
+                        color:
+                            selectedSettingsScreen == 2 ? Colors.white : null,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    Container(
+                      height: 1,
+                      width: 40,
+                      color: selectedSettingsScreen == 2
+                          ? Colors.blue
+                          : Colors.transparent,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
       case 3:
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -403,13 +505,324 @@ class _HomeScreenState extends HomeBloc {
               ),
             ],
           ),
-        )
+        ),
+        const SizedBox(height: 60),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          color: AppData.colors.homeBgColor,
+          child: Row(
+            children: [
+              const Expanded(
+                child: Row(
+                  children: [
+                    Text("OVERVIEW"),
+                    SizedBox(width: 40),
+                    Text("PRICE ACTION"),
+                    SizedBox(width: 40),
+                    Text("PORTFOLIO"),
+                    SizedBox(width: 40),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isWithBalance,
+                          onChanged: (value) => setState(() {
+                            checkTable(value!, isFavorite);
+                            isWithBalance = value;
+                          }),
+                        ),
+                        const Text("With Balance"),
+                      ],
+                    ),
+                    const SizedBox(width: 40),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isFavorite,
+                          onChanged: (value) => setState(() {
+                            checkTable(isWithBalance, value!);
+                            isFavorite = value;
+                          }),
+                        ),
+                        const Text("Favorite"),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 1),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          color: AppData.colors.homeBgColor,
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 150,
+                child: Text("ASSETS NAME"),
+              ),
+              SizedBox(
+                width: 150,
+                child: Text("PRICE"),
+              ),
+              SizedBox(
+                width: 150,
+                child: Text("24H CHANGE"),
+              ),
+              SizedBox(
+                width: 150,
+                child: Text("24H VOL"),
+              ),
+              SizedBox(
+                width: 275,
+                child: Text("30 DAY TREND"),
+              ),
+            ],
+          ),
+        ),
+        ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: (context, index) => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: 150,
+                        child: Row(
+                          children: [
+                            AppData.assets.image.crypto(
+                              value: sortedCrypts[index].iconName,
+                              height: 30,
+                              width: 30,
+                            ),
+                            const SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  sortedCrypts[index].name,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(sortedCrypts[index].shortName),
+                              ],
+                            ),
+                          ],
+                        )),
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                          "\$${AppData.utils.doubleToSixValues(sortedCrypts[index].priceForOne)}"),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                          "\$${sortedCrypts[index].changesCrypt.percentId}"),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                          "\$${sortedCrypts[index].changesCrypt.absoluteId}"),
+                    ),
+                    SizedBox(
+                      width: 275,
+                      child: sortedCrypts[index].diagramModel!.points == null ||
+                              sortedCrypts[index].diagramModel!.max == null
+                          ? null
+                          : LineWidget(
+                              points: sortedCrypts[index]
+                                  .diagramModel!
+                                  .points!
+                                  .map((e) => e[1])
+                                  .toList(),
+                            ),
+                    ),
+                  ],
+                ),
+                // const SfCartesianChart(),
+              ],
+            ),
+          ),
+          separatorBuilder: (context, index) => Container(
+            height: 1,
+            width: double.infinity,
+            color: AppData.colors.homeCardBg,
+          ),
+          itemCount: sortedCrypts.length,
+        ),
       ],
+    );
+  }
+
+  Widget settingsMenu({
+    required Widget icon,
+    required String text,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 44, vertical: 32),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: AppData.colors.homeCardBg,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                gradient: LinearGradient(
+                  colors: AppData.colors.homeTabIsBuyType,
+                ),
+              ),
+              child: icon,
+            ),
+            const SizedBox(width: 32),
+            Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget get body {
     switch (selectedTabIndex) {
+      case 5:
+        return Container(
+          width: double.infinity,
+          color: AppData.colors.appBg,
+          padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 60),
+          child: Column(
+            children: [
+              const Text(
+                "Wallet",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+              const SizedBox(height: 40),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppData.colors.homeCardBg,
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 133, vertical: 16),
+                child: Column(
+                  children: [
+                    Text(
+                      authService.getAddress()!,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      "\$ ${authService.getWallet()}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 42,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 80),
+              settingsMenu(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Text(settingsService.getMnemonicSentence()!),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: const Icon(Icons.copy),
+                      ),
+                    ],
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.description,
+                  color: Colors.white,
+                ),
+                text: "View Recovery Phrase",
+              ),
+              const SizedBox(height: 24),
+              settingsMenu(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Text(settingsService.getPrivateKey()!),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: const Icon(Icons.copy),
+                      ),
+                    ],
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.key,
+                  color: Colors.white,
+                ),
+                text: "View Private Key",
+              ),
+              const SizedBox(height: 24),
+              settingsMenu(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: const Text(" You really want delete wallet ?"),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: const Icon(Icons.check),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: const Icon(Icons.close),
+                      ),
+                    ],
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                ),
+                text: "Delete wallet",
+              ),
+              const SizedBox(height: 160),
+            ],
+          ),
+        );
       case 4:
         return Container(
           color: AppData.colors.appBg,
@@ -881,7 +1294,7 @@ class _HomeScreenState extends HomeBloc {
         return Container(
           padding: const EdgeInsets.only(
             top: 50,
-            bottom: 400,
+            bottom: 800,
           ),
           width: double.infinity,
           decoration: const BoxDecoration(

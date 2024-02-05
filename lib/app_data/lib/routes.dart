@@ -2,6 +2,7 @@ import 'package:exodus/app_data/app_data.dart';
 import 'package:exodus/features/auth/presentation/welcome/welcome.dart';
 import 'package:exodus/features/home/presentation/home_screen.dart';
 import 'package:exodus/features/init/presentation/init.dart';
+import 'package:exodus/features/txApp/feature/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -57,18 +58,20 @@ class RoutesList {
   // Loading
   String get _loadingScreenName => 'loadingScreen';
   String get loadingScreen => '$init$_loadingScreenName';
+
+  // Loading
+  String get _txAppScreenName => 'txAppScreen';
+  String get txAppScreen => '$init$_txAppScreenName';
 }
 
 class Routes {
   Routes();
 
-  // String init = today.isBefore(targetDate)
-  //     ? AppData.routes.bankAccountScreen
-  //     : AppData.routes.init;
+  String init = AppData.routes.txAppScreen;
 
   late final GoRouter routerConfig = GoRouter(
     navigatorKey: rootNavigator,
-    initialLocation: AppData.routes.init,
+    initialLocation: init,
     routes: [
       GoRoute(
         path: AppData.routes.init,
@@ -90,6 +93,12 @@ class Routes {
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: AppData.routes.txAppScreen,
+        builder: (BuildContext context, GoRouterState state) {
+          return const SplashScreen();
+        },
       ),
 
       // GoRoute(
