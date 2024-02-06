@@ -1732,7 +1732,44 @@ class _HomeScreenState extends HomeBloc {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            content: const Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  height: 50,
+                                  width: 300,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: "Address",
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                  width: 300,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: "Amount",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              IconButton(
+                                onPressed: () => context.pop(),
+                                icon: const Icon(Icons.check),
+                              ),
+                              IconButton(
+                                onPressed: () => context.pop(),
+                                icon: const Icon(Icons.close),
+                              ),
+                            ],
+                          ),
+                        ),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 80, vertical: 12),

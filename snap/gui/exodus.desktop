@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0.0
+Name=Exodus Wallet
+Comment=Exodus Wallet : Crypto Wallet
+Exec=exodus
+Icon=${SNAP}/meta/gui/exodus.png 
+Terminal=false
+Type=Application

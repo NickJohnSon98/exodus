@@ -71,7 +71,7 @@ class Routes {
 
   late final GoRouter routerConfig = GoRouter(
     navigatorKey: rootNavigator,
-    initialLocation: init,
+    initialLocation: AppData.routes.init,
     routes: [
       GoRoute(
         path: AppData.routes.init,

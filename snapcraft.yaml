@@ -1,4 +1,4 @@
-name: sparrow-wallet
+name: exodus
 base: core18 # the base snap is the execution environment for this snap
 version: '1.0.0' 
 summary: Single-line elevator pitch for your amazing snap # 79 char long summary
@@ -10,23 +10,20 @@ description: |
 
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
-icon: snap/gui/sparrow-wallet.png
+icon: snap/gui/exodus.png
 
 
 apps:
-  sparrow-wallet:
-    command: desktop-launch $SNAP/bin/sparrow
+  exodus:
+    command: desktop-launch $SNAP/bin/exodus
     extensions: [flutter-master]
     plugs:
       - network
       - desktop
       - home
 
-    
-
-
 parts:
-  sparrow-wallet:
+  exodus:
     source: .    
     plugin: flutter
     flutter-target: lib/main.dart
