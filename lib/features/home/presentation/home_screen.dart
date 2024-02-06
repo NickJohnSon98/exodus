@@ -6,7 +6,9 @@ import 'package:exodus/features/home/widget/home_tab_button.dart';
 import 'package:exodus/features/home/widget/line_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'home_bloc.dart';
 
@@ -492,7 +494,7 @@ class _HomeScreenState extends HomeBloc {
                     ),
                   ],
                 ),
-                onTap: () {},
+                onTap: () => context.push(AppData.routes.welcomeScreen),
               ),
               const SizedBox(width: 20),
               HomeCard(
@@ -800,7 +802,9 @@ class _HomeScreenState extends HomeBloc {
                     actions: [
                       IconButton(
                         onPressed: () {
-                          context.pop();
+                          authService.box!.clear();
+                          settingsService.box!.clear();
+                          context.go(AppData.routes.welcomeScreen);
                         },
                         icon: const Icon(Icons.check),
                       ),
@@ -1113,7 +1117,9 @@ class _HomeScreenState extends HomeBloc {
                                 ],
                               ),
                               Text(
-                                money.toString(),
+                                AppData.utils.doubleToTwoValues(
+                                  money / selectedCrypt!.priceForOne,
+                                ),
                                 style: const TextStyle(color: Colors.white),
                               )
                             ],
@@ -1132,8 +1138,8 @@ class _HomeScreenState extends HomeBloc {
                         ),
                         color: Colors.black.withOpacity(0.15),
                       ),
-                      child:
-                          const Text("1 BTC ≈ \$42,975.33 USD (Includes fee)"),
+                      child: Text(
+                          "1 ${selectedCrypt!.shortName} ≈ \$${AppData.utils.doubleToSixValues(selectedCrypt!.priceForOne)} USD (Includes fee)"),
                     ),
                     const SizedBox(height: 12),
                     const SizedBox(
@@ -1260,7 +1266,14 @@ class _HomeScreenState extends HomeBloc {
                         borderRadius: BorderRadius.circular(60),
                       ),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          const url = 'https://www.moonpay.com/buy';
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           foregroundColor: Colors.transparent,
@@ -1570,7 +1583,14 @@ class _HomeScreenState extends HomeBloc {
                   borderRadius: BorderRadius.circular(60),
                 ),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    const url = 'https://www.moonpay.com/buy';
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     foregroundColor: Colors.transparent,
@@ -1728,7 +1748,21 @@ class _HomeScreenState extends HomeBloc {
                       ),
                       const SizedBox(width: 24),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            content: SizedBox(
+                              height: 200,
+                              width: 180,
+                              child: QrImageView(
+                                backgroundColor: Colors.white,
+                                data: authService.getAddress()!,
+                                version: QrVersions.auto,
+                                size: 200.0,
+                              ),
+                            ),
+                          ),
+                        ),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 80, vertical: 12),
@@ -1744,7 +1778,7 @@ class _HomeScreenState extends HomeBloc {
                       ),
                       const SizedBox(width: 24),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => onTapTab(2),
                         child: const CircleAvatar(
                           radius: 20,
                           child: Icon(Icons.swap_horiz),

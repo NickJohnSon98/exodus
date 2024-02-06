@@ -67,7 +67,7 @@ class RoutesList {
 class Routes {
   Routes();
 
-  String init = AppData.routes.txAppScreen;
+  String init = AppData.routes.init;
 
   late final GoRouter routerConfig = GoRouter(
     navigatorKey: rootNavigator,

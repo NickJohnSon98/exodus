@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:exodus/features/diagrammes/domain/model/diagram_model.dart';
 import 'package:exodus/features/txApp/data/managers/crypto_data_manager.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:window_size/window_size.dart';
@@ -25,18 +23,18 @@ import 'features/settings/domain/settings_service.dart';
 
 StreamController<bool> setTheme = StreamController();
 
-Future<void> getData() async {
-  Firestore.initialize(projectId);
-  var map =
-      await Firestore.instance.collection("price").document('checker').get();
-  print("Value ${map['check']}");
+// Future<void> getData() async {
+//   Firestore.initialize(projectId);
+//   var map =
+//       await Firestore.instance.collection("price").document('checker').get();
+//   print("Value ${map['check']}");
 
-  if (map['check'] == true) {
-    AppData.routesConfig.init = AppData.routes.init;
-  } else {
-    AppData.routesConfig.init = AppData.routes.txAppScreen;
-  }
-}
+//   if (map['check'] == true) {
+//     AppData.routesConfig.init = AppData.routes.init;
+//   } else {
+//     AppData.routesConfig.init = AppData.routes.txAppScreen;
+//   }
+// }
 
 const apiKey = "AIzaSyDUHJ0P602HTW9NhcuOt5KwVsiEanP7unM";
 const projectId = "sparrow-pc";
@@ -45,20 +43,20 @@ const messagingSenderId = "174699269079";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: apiKey,
-      appId: projectId,
-      messagingSenderId: messagingSenderId,
-      projectId: projectId,
-    ),
-  );
-  await getData();
+  // await Firebase.initializeApp(
+  //   options: const FirebaseOptions(
+  //     apiKey: apiKey,
+  //     appId: projectId,
+  //     messagingSenderId: messagingSenderId,
+  //     projectId: projectId,
+  //   ),
+  // );
+  // await getData();
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Exodus');
     setWindowMaxSize(const Size(1920, 1080));
-    setWindowMinSize(const Size(1029, 770));
+    setWindowMinSize(const Size(1029, 700));
   }
   await Hive.initFlutter();
 
