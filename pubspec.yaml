@@ -87,8 +87,8 @@ flutter_launcher_icons:
 
 msix_config:
   display_name: "Exodus Wallet : Portfolio App"  
-  msix_version: 1.0.0.0
-  logo_path: assets/icons/1024.png
+  msix_version: 1.0.0
+  logo_path: snap/gui//exodus.png
   publisher_display_name: TAN MY SON DESIGN
   identity_name: 23104TANMYSONDESIGN.SparrowWalletPortfolioApp
   publisher: CN=31F5764A-0855-45EA-85FC-A76470FBCC97
@@ -105,6 +105,7 @@ flutter:
     - assets/crypto/
     - assets/layouts/
     - assets/images/
+    - snap/gui/
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages

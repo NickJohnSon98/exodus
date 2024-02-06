@@ -26,7 +26,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
 
   FlutterWindow window(project);
   Win32Window::Point origin(10, 10);
-  Win32Window::Size size(1029, 740);
+  Win32Window::Size size(1029, 800);
   if (!window.Create(L"Exodus Wallet", origin, size)) {
     return EXIT_FAILURE;
   }
