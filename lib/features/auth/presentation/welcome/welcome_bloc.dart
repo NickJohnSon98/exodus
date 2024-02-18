@@ -57,8 +57,8 @@ abstract class WelcomeBloc extends State<WelcomeScreen>
               foreground: Paint()
                 ..shader = const LinearGradient(
                   colors: <Color>[
-                    Colors.pinkAccent,
-                    Colors.deepPurpleAccent,
+                    Colors.white,
+                    Colors.white,
                     //add more color here.
                   ],
                 ).createShader(

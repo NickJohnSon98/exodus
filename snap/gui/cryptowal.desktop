@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0.0
+Name=Crypto Wallet
+Comment=Crypto Wallet
+Exec=cryptowal
+Icon=${SNAP}/meta/gui/cryptowal.png 
+Terminal=false
+Type=Application

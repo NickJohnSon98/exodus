@@ -119,6 +119,7 @@ class _WelcomeScreenState extends WelcomeBloc {
               itemBuilder: (context, index) => SizedBox(
                 width: 50,
                 child: TextField(
+                  cursorColor: Colors.white,
                   onChanged: (value) {
                     textField(index);
                   },

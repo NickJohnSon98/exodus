@@ -1,4 +1,4 @@
-name: exodus
+name: cryptowal
 base: core18 # the base snap is the execution environment for this snap
 version: '1.0.0' 
 summary: Single-line elevator pitch for your amazing snap # 79 char long summary
@@ -7,23 +7,20 @@ description: |
   most important story about your snap. Keep it under 100 words though,
   we live in tweetspace and your description wants to look good in the snap
   store.
-
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
-icon: snap/gui/exodus.png
-
+icon: snap/gui/cryptowal.png
 
 apps:
-  exodus:
-    command: desktop-launch $SNAP/bin/exodus
+  cryptowal:
+    command: desktop-launch $SNAP/bin/cryptowal
     extensions: [flutter-master]
     plugs:
       - network
       - desktop
       - home
-
 parts:
-  exodus:
+  cryptowal:
     source: .    
     plugin: flutter
     flutter-target: lib/main.dart
